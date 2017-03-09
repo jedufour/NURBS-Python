@@ -9,13 +9,13 @@ from mpl_toolkits.mplot3d import Axes3D
 surf = ns.Surface()
 
 # Set up the NURBS surface
-surf.read_ctrlptsw("data/CP_Surface3.txt")
+surf.read_ctrlptsw("data/CPw_Surface3.txt")
 
-surf.degree_u = 1
-surf.degree_v = 2
+surf.degree_u = 2
+surf.degree_v = 1
 
-surf.knotvector_u = [0,0,1,1]
-surf.knotvector_v = [0,0,0,0.25,0.25,0.5,0.5,0.75,0.75,1,1,1]
+surf.knotvector_u = [0,0,0,0.25,0.25,0.5,0.5,0.75,0.75,1,1,1]
+surf.knotvector_v = [0,0,1,1]
 
 # Evaluate surface
 surf.evaluate_rational()
@@ -34,6 +34,18 @@ for spt in surf.surfpts:
 # Calculate 1st order surface derivative at the given u and v
 u = 0.2
 v = 0.9
+surftan = surf.tangent(u, v)
+print("* Surface point at u = %.2f and v = %.2f is (%.2f, %.2f, %.2f)" % (u, v, surftan[0][0], surftan[0][1], surftan[0][2]))
+print("* First derivative w.r.t. u is (%.2f, %.2f, %.2f)" % (surftan[1][0], surftan[1][1], surftan[1][2]))
+print("* First derivative w.r.t. v is (%.2f, %.2f, %.2f)\n" % (surftan[2][0], surftan[2][1], surftan[2][2]))
+# Calculate normal at the given u and v
+norm = surf.normal(u, v)
+print("* Normal at u = %.2f and v = %.2f is [%.1f, %.1f, %.1f]\n" % (u, v, norm[0], norm[1], norm[2]))
+
+
+# Calculate 1st order surface derivative at the given u and v
+u = 0.0
+v = 0.5
 surftan = surf.tangent(u, v)
 print("* Surface point at u = %.2f and v = %.2f is (%.2f, %.2f, %.2f)" % (u, v, surftan[0][0], surftan[0][1], surftan[0][2]))
 print("* First derivative w.r.t. u is (%.2f, %.2f, %.2f)" % (surftan[1][0], surftan[1][1], surftan[1][2]))
